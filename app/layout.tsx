@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from "react";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Link from "next/link";
@@ -6,12 +9,13 @@ import { BrainCircuit, LogIn, Menu } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Science Museum AI",
-  description: "AI-powered exhibit management for science museums",
-};
-
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <html lang="en">
       <body
@@ -63,14 +67,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <LogIn className="mr-2" /> Staff Login
               </Button>
             </Link>
-            <Button variant="ghost" className="md:hidden">
+            <Button variant="ghost" className="md:hidden" onClick={toggleMobileMenu}>
               <Menu />
             </Button>
           </div>
         </header>
 
         <div className="md:hidden">
-          <nav className="flex flex-col space-y-2 px-4 hidden">
+          <nav className={`flex flex-col space-y-2 px-4 py-2 bg-gray-800 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
             <Link
               href="/how-it-works"
               className="hover:text-blue-400 transition-colors"
